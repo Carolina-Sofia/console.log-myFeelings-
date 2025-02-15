@@ -1,0 +1,25 @@
+{
+  "name": "console.log-myfeelings-",
+  "version": "1.0.0",
+  "description": "A simple journaling web app. This project is a learning exercise for me to explore Node.js, Express, and EJS.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Carolina-Sofia/Console.Log-My-Feelings-.git"
+  },
+  "keywords": [],
+  "author": "Carolina Bernardes Carvalho",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Carolina-Sofia/Console.Log-My-Feelings-/issues"
+  },
+  "homepage": "https://github.com/Carolina-Sofia/Console.Log-My-Feelings-#readme",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.2"
+  }
+}

@@ -1,0 +1,22 @@
+<!-- views/post.ejs -->
+<%- include('partials/header') %>
+
+<article class="post">
+  <h2><%= post.title %></h2>
+  <p><%= post.content %></p>
+</article>
+
+<div class="post-actions">
+  <a href="/edit/<%= post.id %>">Edit</a>
+  <form
+    action="/delete/<%= post.id %>"
+    method="POST"
+    onsubmit="return confirm('Are you sure you want to delete this post?');"
+  >
+    <button type="submit">Delete</button>
+  </form>
+</div>
+
+<a href="/">Back to Home</a>
+
+<%- include('partials/footer') %>
