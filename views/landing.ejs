@@ -1,13 +1,29 @@
 <!-- views/landing.ejs -->
 <%- include('partials/header') %>
 <body>
-  <div class="container-fluid text-center" style="padding-top: 80px">
+  <!--
+    - min-vh-100: sets the container to min 100% viewport height
+    - d-flex flex-column align-items-center justify-content-center: center content
+    - text-center: center the text
+    - p-4: padding around the container
+  -->
+  <div
+    class="container-fluid min-vh-100 d-flex flex-column align-items-center justify-content-center text-center p-4"
+  >
     <h1>console.log(myFeelings)</h1>
-    <p class="mt-4 p-5 col-5 position-sticky top-50 start-50 translate-middle">
+
+    <!-- 
+      Use responsive column sizing for the paragraph:
+      - col-12: full width on extra-small screens
+      - col-sm-8: narrower on small screens
+      - col-md-6 and col-lg-5: even narrower on bigger screens
+    -->
+    <p class="mt-4 col-12 col-sm-8 col-md-6 col-lg-5">
       Just a page to help you feel more present by answering 3 reflection
       questions. Don’t worry, these answers won’t be saved permanently – it’s
       just for you to do a brain dump.
     </p>
+
     <a href="/questions" class="btn btn-primary btn-lg px-4 rounded-pill mt-4">
       Let’s Go
     </a>
