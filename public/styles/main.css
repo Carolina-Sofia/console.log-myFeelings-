@@ -6,23 +6,24 @@
   --bs-heading-color: var(--yellow);
 }
 
-h1 {
-  color: var(--yellow) !important;
-  font-family: "Rubik Mono One", serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-color: var(--background);
-  color: var(--light);
 }
 
 body {
+  background-color: var(--background);
+  color: var(--light);
   font-family: "DM Mono", serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 16px;
+}
+
+h1 {
+  color: var(--yellow) !important;
+  font-family: "Rubik Mono One", serif;
   font-weight: 400;
   font-style: normal;
 }
@@ -35,6 +36,7 @@ body {
 .form-control {
   background-color: var(--light);
   border-color: var(--dark);
+  color: #000;
 }
 
 .btn-primary {
@@ -65,8 +67,6 @@ textarea {
 
 ul {
   list-style-type: none;
-  padding: 0;
-  margin: 0;
   text-align: center;
   padding-top: 20px;
   cursor: pointer;
@@ -80,4 +80,28 @@ a {
 a:hover {
   color: var(--yellow);
   text-decoration: underline;
+}
+
+.row {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+@media (max-width: 576px) {
+  html,
+  body {
+    font-size: 16px;
+  }
+
+  h1 {
+    font-size: 16px;
+  }
+
+  #prompt {
+    font-size: 1rem;
+  }
+
+  textarea {
+    height: 150px;
+  }
 }

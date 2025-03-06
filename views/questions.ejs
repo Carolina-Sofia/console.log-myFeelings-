@@ -4,11 +4,12 @@
   <div class="p-5 pb-2 text-center col">
     <h1 class="pt-3">console.log(myFeelings)</h1>
   </div>
+
   <div class="container-fluid row">
     <% if (dailyEntries.length < 3) { %>
     <!-- ============== IF FEWER THAN 3 ANSWERS ============== -->
 
-    <div class="col-3" style="padding-top: 100px">
+    <div class="col-md-3 col-12" style="padding-top: 100px">
       <h3 class="text-center" style="font-weight: 500">Review answers</h3>
       <ul>
         <% dailyEntries.forEach((entry, index) => { %>
@@ -20,7 +21,7 @@
     </div>
 
     <!-- MIDDLE COLUMN: Prompt & Answer Form -->
-    <div class="p-5 text-center col">
+    <div class="p-5 text-center col-md-6 col-12">
       <p id="prompt" class="col-lg-8 mx-auto fs-5 text-muted pt-5"></p>
       <div class="mb-3">
         <textarea
@@ -40,9 +41,6 @@
         </button>
       </div>
     </div>
-
-    <!-- RIGHT COLUMN: empty -->
-    <div class="col-3"></div>
 
     <% } else { %>
     <!-- ============== IF 3 OR MORE ANSWERS ============== -->
@@ -64,5 +62,6 @@
     </div>
     <% } %>
   </div>
+
   <%- include('partials/footer') %>
 </body>
