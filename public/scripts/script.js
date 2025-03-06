@@ -56,36 +56,11 @@ const promptElement = document.getElementById("prompt");
 const answerElement = document.getElementById("answer");
 const submitButton = document.getElementById("submitButton");
 
-let usedIndices = JSON.parse(localStorage.getItem("usedIndices")) || [];
+// Pick a random question each time the page loads
+const randomIndex = Math.floor(Math.random() * questions.length);
+promptElement.textContent = questions[randomIndex];
 
-// --- New day check ---
-// (Removes previous data if day changed)
-const today = new Date().toDateString();
-const storedDate = localStorage.getItem("qnaDate");
-if (storedDate !== today) {
-  localStorage.removeItem("questionCount");
-  localStorage.removeItem("usedIndices");
-  localStorage.setItem("qnaDate", today);
-  usedIndices = []; // reset after clearing
-}
-
-// Helper to get a random unused index
-function getRandomUnusedIndex() {
-  let index;
-  do {
-    index = Math.floor(Math.random() * questions.length);
-  } while (
-    usedIndices.includes(index) &&
-    usedIndices.length < questions.length
-  );
-
-  return index;
-}
-
-const newIndex = getRandomUnusedIndex();
-promptElement.textContent = questions[newIndex];
-
-// When the user clicks "Submit"
+// When user clicks "Submit"
 submitButton.addEventListener("click", async () => {
   const currentQuestion = promptElement.textContent.trim();
   const userAnswer = answerElement.value.trim();
@@ -95,22 +70,15 @@ submitButton.addEventListener("click", async () => {
     return;
   }
 
-  // Post the question & answer to the server
   try {
+    // Post the question & answer to the server
     await fetch("/answers", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ question: currentQuestion, answer: userAnswer }),
     });
 
-    // Mark this question's index as used
-    const indexUsed = questions.indexOf(currentQuestion);
-    if (indexUsed !== -1 && !usedIndices.includes(indexUsed)) {
-      usedIndices.push(indexUsed);
-      localStorage.setItem("usedIndices", JSON.stringify(usedIndices));
-    }
-
-    // Reload the page so that EJS re-renders the left column with the new Q&A
+    // Reload so EJS (server side) can re-render with the new Q&A
     window.location.reload();
   } catch (err) {
     console.error("Error saving data:", err);

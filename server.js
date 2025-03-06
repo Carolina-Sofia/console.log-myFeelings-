@@ -1,5 +1,6 @@
 // server.js
 import express from "express";
+import session from "express-session";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -13,15 +14,21 @@ const port = 3000;
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-// Middleware
+// Middleware to parse form data and JSON
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Static folder
-app.use(express.static(path.join(__dirname, "public")));
+// --- SESSION SETUP ---
+app.use(
+  session({
+    secret: "example-secret",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
-// In-memory storage for the daily Q&A
-let dailyEntries = [];
+// Serve static files from 'public' folder
+app.use(express.static(path.join(__dirname, "public")));
 
 // --- ROUTES ---
 
@@ -32,18 +39,29 @@ app.get("/", (req, res) => {
 
 // 2) Questions Page
 app.get("/questions", (req, res) => {
-  res.render("questions", { dailyEntries });
+  // Initialize dailyEntries in this user's session if it doesn't exist
+  if (!req.session.dailyEntries) {
+    req.session.dailyEntries = [];
+  }
+
+  // Pass this user's dailyEntries to EJS
+  res.render("questions", { dailyEntries: req.session.dailyEntries });
 });
 
 // 3) Handle new question–answer submission
 app.post("/answers", (req, res) => {
+  if (!req.session.dailyEntries) {
+    req.session.dailyEntries = [];
+  }
+
   const { question, answer } = req.body;
   const newEntry = {
     id: Date.now().toString(),
     question,
     answer,
   };
-  dailyEntries.push(newEntry);
+
+  req.session.dailyEntries.push(newEntry);
 
   // Return success to script.js
   res.json({ success: true });
@@ -51,27 +69,37 @@ app.post("/answers", (req, res) => {
 
 // 4) Show single Q&A detail page (post.ejs)
 app.get("/answers/:id", (req, res) => {
+  if (!req.session.dailyEntries) {
+    req.session.dailyEntries = [];
+  }
+
   const { id } = req.params;
-  const entry = dailyEntries.find((item) => item.id === id);
+  const entry = req.session.dailyEntries.find((item) => item.id === id);
   if (!entry) {
     return res.status(404).send("Entry not found");
   }
+
   res.render("post", { entry });
 });
 
 // 5) Update existing Q&A
 app.post("/answers/:id", (req, res) => {
+  if (!req.session.dailyEntries) {
+    req.session.dailyEntries = [];
+  }
+
   const { id } = req.params;
   const { answer } = req.body;
-  const entry = dailyEntries.find((item) => item.id === id);
+  const entry = req.session.dailyEntries.find((item) => item.id === id);
   if (!entry) {
     return res.status(404).send("Entry not found");
   }
+
   entry.answer = answer;
   res.redirect(`/answers/${id}`);
 });
 
-// Start
+// Start the server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
