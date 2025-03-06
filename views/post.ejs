@@ -1,22 +1,36 @@
-<!-- views/post.ejs -->
 <%- include('partials/header') %>
+<body>
+  <div class="p-5 pb-2 text-center col">
+    <h2 class="mt-4">View / Edit Question</h2>
+  </div>
+  <div class="container-fluid row">
+    <div class="p-5 text-center col">
+      <p><strong>Question:</strong> <%= entry.question %></p>
 
-<article class="post">
-  <h2><%= post.title %></h2>
-  <p><%= post.content %></p>
-</article>
+      <form action="/answers/<%= entry.id %>" method="POST">
+        <div class="p-5 text-center col">
+          <label for="answer" class="form-label">Your Answer:</label>
+          <textarea class="form-control" name="answer" id="answer" rows="4">
+<%= entry.answer %></textarea
+          >
+        </div>
 
-<div class="post-actions">
-  <a href="/edit/<%= post.id %>">Edit</a>
-  <form
-    action="/delete/<%= post.id %>"
-    method="POST"
-    onsubmit="return confirm('Are you sure you want to delete this post?');"
-  >
-    <button type="submit">Delete</button>
-  </form>
-</div>
-
-<a href="/">Back to Home</a>
-
-<%- include('partials/footer') %>
+        <div class="d-inline-flex gap-2 mb-5">
+          <button
+            type="submit"
+            class="btn btn-primary btn-lg px-4 rounded-pill"
+          >
+            Save Changes
+          </button>
+          <a
+            type="button"
+            class="btn btn-secondary btn-lg px-4 rounded-pill"
+            onclick="window.history.back()"
+            >Back</a
+          >
+        </div>
+      </form>
+    </div>
+  </div>
+  <%- include('partials/footer') %>
+</body>

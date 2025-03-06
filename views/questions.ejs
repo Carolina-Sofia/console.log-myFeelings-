@@ -1,0 +1,68 @@
+<!-- views/questions.ejs -->
+<%- include('partials/header') %>
+<body>
+  <div class="p-5 pb-2 text-center col">
+    <h1 class="pt-3">console.log(myFeelings)</h1>
+  </div>
+  <div class="container-fluid row">
+    <% if (dailyEntries.length < 3) { %>
+    <!-- ============== IF FEWER THAN 3 ANSWERS ============== -->
+
+    <div class="col-3" style="padding-top: 100px">
+      <h3 class="text-center" style="font-weight: 500">Review answers</h3>
+      <ul>
+        <% dailyEntries.forEach((entry, index) => { %>
+        <li>
+          <a href="/answers/<%= entry.id %>"> Question <%= index + 1 %> </a>
+        </li>
+        <% }) %>
+      </ul>
+    </div>
+
+    <!-- MIDDLE COLUMN: Prompt & Answer Form -->
+    <div class="p-5 text-center col">
+      <p id="prompt" class="col-lg-8 mx-auto fs-5 text-muted pt-5"></p>
+      <div class="mb-3">
+        <textarea
+          class="form-control"
+          id="answer"
+          rows="3"
+          placeholder="Type your answer here..."
+        ></textarea>
+      </div>
+      <div class="d-inline-flex gap-2 mb-5">
+        <button
+          class="btn btn-primary btn-lg px-4 rounded-pill"
+          id="submitButton"
+          type="button"
+        >
+          Submit
+        </button>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: empty -->
+    <div class="col-3"></div>
+
+    <% } else { %>
+    <!-- ============== IF 3 OR MORE ANSWERS ============== -->
+
+    <!-- Single big column in the middle to display "review answers" -->
+    <div class="p-5 text-center col-12" style="padding-top: 100px">
+      <h3 class="text-center" style="font-weight: 500">Review answers</h3>
+      <ul class="mt-3" style="list-style-type: none">
+        <% dailyEntries.forEach((entry, index) => { %>
+        <li class="mb-2">
+          <a href="/answers/<%= entry.id %>"> Question <%= index + 1 %> </a>
+        </li>
+        <% }) %>
+      </ul>
+      <p class="mt-5">
+        You’ve already answered 3 questions today. Come back tomorrow if you
+        want more reflection!
+      </p>
+    </div>
+    <% } %>
+  </div>
+  <%- include('partials/footer') %>
+</body>

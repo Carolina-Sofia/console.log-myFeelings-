@@ -9,80 +9,69 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = 3000;
 
-// Set EJS as the view engine
+// Set up EJS as the view engine
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+// Middleware
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
+// Static folder
 app.use(express.static(path.join(__dirname, "public")));
 
-// In-memory storage for posts
-let posts = [];
+// In-memory storage for the daily Q&A
+let dailyEntries = [];
 
-// Routes
+// --- ROUTES ---
 
-// Home Route - Display all posts
+// 1) Landing Page (title, description, "Let's Go" button)
 app.get("/", (req, res) => {
-  res.render("index", { posts });
+  res.render("landing");
 });
 
-// Create Post Form
-app.get("/create", (req, res) => {
-  res.render("create");
+// 2) Questions Page
+app.get("/questions", (req, res) => {
+  res.render("questions", { dailyEntries });
 });
 
-// Handle Post Creation
-app.post("/create", (req, res) => {
-  const { title, content } = req.body;
-  const newPost = {
+// 3) Handle new question–answer submission
+app.post("/answers", (req, res) => {
+  const { question, answer } = req.body;
+  const newEntry = {
     id: Date.now().toString(),
-    title,
-    content,
+    question,
+    answer,
   };
-  posts.push(newPost);
-  res.redirect("/");
+  dailyEntries.push(newEntry);
+
+  // Return success to script.js
+  res.json({ success: true });
 });
 
-// View Single Post
-app.get("/post/:id", (req, res) => {
-  const post = posts.find((p) => p.id === req.params.id);
-  if (post) {
-    res.render("post", { post });
-  } else {
-    res.status(404).send("Post not found");
+// 4) Show single Q&A detail page (post.ejs)
+app.get("/answers/:id", (req, res) => {
+  const { id } = req.params;
+  const entry = dailyEntries.find((item) => item.id === id);
+  if (!entry) {
+    return res.status(404).send("Entry not found");
   }
+  res.render("post", { entry });
 });
 
-// Edit Post Form
-app.get("/edit/:id", (req, res) => {
-  const post = posts.find((p) => p.id === req.params.id);
-  if (post) {
-    res.render("edit", { post });
-  } else {
-    res.status(404).send("Post not found");
+// 5) Update existing Q&A
+app.post("/answers/:id", (req, res) => {
+  const { id } = req.params;
+  const { answer } = req.body;
+  const entry = dailyEntries.find((item) => item.id === id);
+  if (!entry) {
+    return res.status(404).send("Entry not found");
   }
+  entry.answer = answer;
+  res.redirect(`/answers/${id}`);
 });
 
-// Handle Post Update
-app.post("/edit/:id", (req, res) => {
-  const post = posts.find((p) => p.id === req.params.id);
-  if (post) {
-    const { title, content } = req.body;
-    post.title = title;
-    post.content = content;
-    res.redirect("/");
-  } else {
-    res.status(404).send("Post not found");
-  }
-});
-
-// Handle Post Deletion
-app.post("/delete/:id", (req, res) => {
-  posts = posts.filter((p) => p.id !== req.params.id);
-  res.redirect("/");
-});
-
+// Start
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
