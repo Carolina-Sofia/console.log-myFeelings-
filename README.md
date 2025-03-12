@@ -8,7 +8,6 @@ A simple journaling web app built with Node.js, Express, and EJS.
 - [Overview](#overview)
 - [Features](#features)
 - [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
 - [How It Works](#how-it-works)
 - [Future Improvements](#future-improvements)
 
@@ -43,23 +42,6 @@ It is primarily a **learning exercise** to explore the fundamentals of Node.js, 
 - **EJS**: Template engine for rendering server-side HTML.
 - **express-session**: Manages session data for each user.
 - **HTML/CSS/JS**: Frontend structure, styling, and interactivity.
-
----
-
-## Project Structure
-console-log-myfeelings/
-├── public/
-│   ├── css/
-│   │   └── styles.css         # Basic CSS for styling
-│   └── js/
-│       └── script.js          # Client-side JavaScript for fetch calls, etc.
-├── views/
-│   ├── landing.ejs            # Landing page template
-│   ├── questions.ejs          # Page displaying existing entries & form
-│   └── post.ejs               # Single Q&A detail page
-├── server.js                  # Main application server
-├── package.json               # Project metadata and scripts
-└── README.md                  # Project documentation
 
 ---
 
