@@ -78,7 +78,7 @@ submitButton.addEventListener("click", async () => {
       body: JSON.stringify({ question: currentQuestion, answer: userAnswer }),
     });
 
-    // Reload so EJS (server side) can re-render with the new Q&A
+    // Reload so EJS can re-render with the new Q&A
     window.location.reload();
   } catch (err) {
     console.error("Error saving data:", err);

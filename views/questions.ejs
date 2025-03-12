@@ -7,7 +7,7 @@
 
   <div class="container-fluid row">
     <% if (dailyEntries.length < 3) { %>
-    <!-- ============== IF FEWER THAN 3 ANSWERS ============== -->
+    <!-- IF FEWER THAN 3 ANSWERS -->
 
     <div class="col-md-3 col-12" style="padding-top: 100px">
       <h3 class="text-center" style="font-weight: 500">Review answers</h3>
@@ -43,7 +43,7 @@
     </div>
 
     <% } else { %>
-    <!-- ============== IF 3 OR MORE ANSWERS ============== -->
+    <!-- IF 3 OR MORE ANSWERS -->
 
     <!-- Single big column in the middle to display "review answers" -->
     <div class="p-5 text-center col-12" style="padding-top: 100px">
@@ -56,8 +56,7 @@
         <% }) %>
       </ul>
       <p class="mt-5">
-        You’ve already answered 3 questions today. Come back tomorrow if you
-        want more reflection!
+        You’ve already answered 3 questions today. Come back tomorrow!
       </p>
     </div>
     <% } %>
